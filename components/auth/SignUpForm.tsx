@@ -28,7 +28,7 @@ import { signUp } from "@/actions/auth";
 
 type SignUpForm = z.infer<typeof signUpSchema>
 
-export default function LoginForm() {
+export default function SignUpForm() {
     const form  = useForm<SignUpForm>({
         resolver: zodResolver(signUpSchema),
         defaultValues: {
@@ -47,7 +47,7 @@ export default function LoginForm() {
     return (
         <Card className="mx-auto max-w-md w-full bg-black border text-white">
             <CardHeader>
-                <CardTitle className="text-2x">Sign Up</CardTitle>
+                <CardTitle className="text-2x">Login</CardTitle>
                 <CardDescription className="text-white">
                     Enter your email below to login to your account
                 </CardDescription>
@@ -94,7 +94,7 @@ export default function LoginForm() {
                                         <FormItem>
                                             <FormLabel>Password</FormLabel>
                                             <FormControl>
-                                                <Input className="text-black" type="passowrd" placeholder="Passowrd" {...field} />
+                                                <Input className="text-black" type="password" placeholder="Passowrd" {...field} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -110,8 +110,8 @@ export default function LoginForm() {
                         </div>
                         <div className="mt-4 text-center text-sm">
                             Don&apos;t have an account?{" "}
-                            <Link href="#" className="underline">
-                                Sign up
+                            <Link href="/login" className="underline">
+                                Login
                             </Link>
                         </div>
                     </form>
