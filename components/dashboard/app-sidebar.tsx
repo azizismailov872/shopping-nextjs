@@ -19,13 +19,15 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { User as UserType} from "@supabase/supabase-js";
+
+type Props = {
+    currentUser: UserType
+}
+
+type AppSidebarProps = React.ComponentProps<typeof Sidebar> & Props;
 
 const data = {
-    user: {
-        name: "shadcn",
-        email: "m@example.com",
-        avatar: "/avatars/shadcn.jpg",
-    },
     menuList: [
         {
             name: "Products",
@@ -50,7 +52,7 @@ const data = {
     ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ currentUser, ...props }:AppSidebarProps) {
     return (
         <Sidebar variant="inset" {...props}>
             <SidebarHeader>
@@ -75,7 +77,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <NavMain menuList={data.menuList} />
             </SidebarContent>
             <SidebarFooter>
-                <NavUser user={data.user} />
+                <NavUser user={currentUser} />
             </SidebarFooter>
         </Sidebar>
     );
