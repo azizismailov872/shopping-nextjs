@@ -31,7 +31,7 @@ const data = {
     menuList: [
         {
             name: "Products",
-            url: "/dashboard/projects",
+            url: "/dashboard/products",
             icon: PackageSearch,
         },
         {
