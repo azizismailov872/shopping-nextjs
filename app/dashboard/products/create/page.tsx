@@ -17,7 +17,7 @@ export default async function CreatePage() {
 
     return (
         <div>
-            <h2>Add New product</h2>
+            <h2 className="text-2xl font-bold tracking-tight mb-2">Add new product</h2>
             <CreateFormContainer categories={data} />
         </div>
     )

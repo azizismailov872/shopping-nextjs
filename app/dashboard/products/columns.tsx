@@ -64,12 +64,12 @@ export const columns: ColumnDef<Product>[] = [
                                 <span>Edit</span>
                             </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        {/* <DropdownMenuItem>
                             <Link className="flex gap-3" href={`/dashboard/products/view/${product.id}`}>
                                 <Eye />
-                                <span>Edit</span>
+                                <span>View</span>
                             </Link>
-                        </DropdownMenuItem>
+                        </DropdownMenuItem> */}
                         <DropdownMenuItem onClick={() => deleteProductAction(product.id)}>
                             <Trash />
                             Delete

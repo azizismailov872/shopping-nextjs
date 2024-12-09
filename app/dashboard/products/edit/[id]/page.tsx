@@ -16,7 +16,7 @@ export default async function Page({params}: {params: Promise<{ id: string | num
 
     return(
         <div className="p-8">
-            <h2 className="text-2xl font-bold mb-4">Add New Product</h2>
+            <h2 className="text-2xl font-bold mb-4">Edit product {`${product.name}`}</h2>
             <EditFormContainer categories={data} product={product} productId={productId} />
         </div>
     )

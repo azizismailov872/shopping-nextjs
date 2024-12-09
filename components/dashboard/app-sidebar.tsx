@@ -34,21 +34,21 @@ const data = {
             url: "/dashboard/products",
             icon: PackageSearch,
         },
-        {
-            name: "Categories",
-            url: "/dashboard/categories",
-            icon: Layers,
-        },
-        {
-            name: "Users",
-            url: "/dashboard/users",
-            icon: UserRound,
-        },
-        {
-            name: "Admin users",
-            url: "/dashboard/admin-users",
-            icon: UserRound,
-        },
+        // {
+        //     name: "Categories",
+        //     url: "/dashboard/categories",
+        //     icon: Layers,
+        // },
+        // {
+        //     name: "Users",
+        //     url: "/dashboard/users",
+        //     icon: UserRound,
+        // },
+        // {
+        //     name: "Admin users",
+        //     url: "/dashboard/admin-users",
+        //     icon: UserRound,
+        // },
     ],
 };
 

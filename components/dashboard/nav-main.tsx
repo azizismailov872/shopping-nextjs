@@ -3,6 +3,7 @@
 import {
     Folder,
     MoreHorizontal,
+    Pen,
     Share,
     Trash2,
     type LucideIcon,
@@ -24,6 +25,7 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 export function NavMain({
     menuList,
@@ -61,10 +63,12 @@ export function NavMain({
                                 align={isMobile ? "end" : "start"}
                             >
                                 <DropdownMenuItem>
-                                    <Folder className="text-muted-foreground" />
-                                    <span>View Project</span>
+                                    <Link className="flex gap-2" href={'/dashboard/products/create'}>
+                                        <Pen className="text-muted-foreground" />
+                                        <span>Create</span>
+                                    </Link>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>
+                                {/* <DropdownMenuItem>
                                     <Share className="text-muted-foreground" />
                                     <span>Share Project</span>
                                 </DropdownMenuItem>
@@ -72,7 +76,7 @@ export function NavMain({
                                 <DropdownMenuItem>
                                     <Trash2 className="text-muted-foreground" />
                                     <span>Delete Project</span>
-                                </DropdownMenuItem>
+                                </DropdownMenuItem> */}
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </SidebarMenuItem>
