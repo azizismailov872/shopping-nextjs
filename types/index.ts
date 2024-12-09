@@ -1,23 +1,16 @@
 export interface Product {
-    id: string | number;
+    id?: string | number;
     name: string;
     description: string;
     price: number | string;
     brand: string;
     sizes: string[];
-    images: string[];
+    images: string[] | File[];
     category: number | string;
     colors: string[];
 }
 
-
-interface ProductForm extends Omit<Product, 'id' | 'images' | 'sizes' | 'colors'> {
-    images: File[];
-    sizes: string;
-    colors: string;
-}
-
-interface Category {
+export interface Category {
     id: string | number;
     name: string;
     created_at?: string

@@ -1,5 +1,5 @@
 import { fetchProducts } from "@/actions/products";
-import { ProductList } from "@/components/dashboard/product-list";
+import { ProductList } from "@/components/dashboard/products/product-list";
 import { columns } from "./columns";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
