@@ -5,41 +5,41 @@ import { createSchema, updateSchema } from "@/utils/validation/products";
 import { z } from "zod";
 
 
-type CreateProductData = z.infer<typeof createSchema> 
+type CreateProductData = z.infer<typeof createSchema>
 
-type UpdateProductData =  z.infer<typeof updateSchema>
+type UpdateProductData = z.infer<typeof updateSchema>
 
 export const uploadImages = async (files: File[], productId: string): Promise<string[]> => {
-    const supabase = await createClient()
+	const supabase = await createClient()
 
-    const uploadedFiles: string[] = [];
+	const uploadedFiles: string[] = [];
 
-    // Загружаем все файлы по очереди
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const filePath = `products/${productId}/${file.name}`; // Путь для хранения в Supabase Storage
+	// Загружаем все файлы по очереди
+	for (let i = 0; i < files.length; i++) {
+		const file = files[i];
+		const filePath = `products/${productId}/${file.name}`; // Путь для хранения в Supabase Storage
 
-        // Загружаем файл в Supabase
-        const { data, error } = await supabase.storage
-        .from("images")
-        .upload(filePath, file);
+		// Загружаем файл в Supabase
+		const { data, error } = await supabase.storage
+			.from("images")
+			.upload(filePath, file);
 
-        if (error) {
-            throw new Error(`Failed to upload image: ${error.message}`);
-        }
+		if (error) {
+			throw new Error(`Failed to upload image: ${error.message}`);
+		}
 
-        // Добавляем путь к файлу в массив
-        uploadedFiles.push(data?.path || "");
-    }
+		// Добавляем путь к файлу в массив
+		uploadedFiles.push(data?.path || "");
+	}
 
-    return uploadedFiles;
+	return uploadedFiles;
 };
 
 const parseStringToArray = (input: string): string[] => {
 	return input.split(",").map((item) => item.trim());
 };
 
-export const saveProduct = async(formData: CreateProductData): Promise<string> => {
+export const saveProduct = async (formData: CreateProductData): Promise<string> => {
 	const { name, description, price, brand, sizes, category, colors, images } = formData;
 
 	const supabase = await createClient()
@@ -132,40 +132,40 @@ export const deleteProduct = async (productId: number | string) => {
 };
 
 
-export const getProductById = async(productId: string | number) => {
-    const supabase = await createClient()
+export const getProductById = async (productId: string | number) => {
+	const supabase = await createClient()
 
-    const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .eq("id", productId)
-        .single(); // Ожидаем одну запись
+	const { data, error } = await supabase
+		.from("products")
+		.select("*")
+		.eq("id", productId)
+		.single(); // Ожидаем одну запись
 
-    if (error) {
-        throw new Error(`Failed to fetch product: ${error.message}`);
-    }
+	if (error) {
+		throw new Error(`Failed to fetch product: ${error.message}`);
+	}
 
-    const product = {
-        name: data.name,
-        description: data.description,
-        price: data.price,
-        brand: data.brand,
-        sizes: data.sizes.join(", "), // Преобразуем массив в строку
-        category: data.category,
-        colors: data.colors.join(", "), // Преобразуем массив в строку
-        images: data.images.map((imagePath: string) => ({ name: imagePath.split("/").pop() })) // Если необходимо только имя
-    };
+	const product = {
+		name: data.name,
+		description: data.description,
+		price: data.price,
+		brand: data.brand,
+		sizes: data.sizes.join(", "), // Преобразуем массив в строку
+		category: data.category,
+		colors: data.colors.join(", "), // Преобразуем массив в строку
+		images: data.images.map((imagePath: string) => ({ name: imagePath.split("/").pop() })) // Если необходимо только имя
+	};
 
-    return product
+	return product
 }
 
 export const updateProductData = async (formData: UpdateProductData, productId: string | number): Promise<any> => {
-    const { name, description, price, brand, sizes, category, colors, images } = formData;
-	console.log('product_id: ',productId)
-    const supabase = await createClient()
+	const { name, description, price, brand, sizes, category, colors, images } = formData;
+	console.log('product_id: ', productId)
+	const supabase = await createClient()
 
-    const sizesArray = parseStringToArray(sizes);
-    const colorsArray = parseStringToArray(colors);
+	const sizesArray = parseStringToArray(sizes);
+	const colorsArray = parseStringToArray(colors);
 
 	let imagesNames: string[] = []
 
@@ -179,7 +179,7 @@ export const updateProductData = async (formData: UpdateProductData, productId: 
 		colors: colorsArray,
 	}
 
-	if(images && Array.isArray(images) && images.every(file => file instanceof File)) {
+	if (images && Array.isArray(images) && images.every(file => file instanceof File)) {
 		imagesNames = images ? images.map((file) => file.name) : [''];
 
 		updatedData = Object.assign(updatedData, {
@@ -194,4 +194,4 @@ export const updateProductData = async (formData: UpdateProductData, productId: 
 
 	return status
 
-  };
+};
