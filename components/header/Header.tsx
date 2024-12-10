@@ -22,7 +22,7 @@ const Header = async ({user,cartList}: Props) => {
                         </Link>
                     </div>
 
-                    <div className="md:flex md:items-center md:gap-12">
+                    <div className="flex items-center gap-12">
                         <AuthButtons user={user} />
                         {
                             user && (

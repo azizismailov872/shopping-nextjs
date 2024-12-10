@@ -65,7 +65,7 @@ export function AppSidebar({ currentUser, ...props }:AppSidebarProps) {
                                 </div>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
                                     <span className="truncate font-semibold">
-                                        Acme Inc
+                                        MussarovShop
                                     </span>
                                 </div>
                             </a>

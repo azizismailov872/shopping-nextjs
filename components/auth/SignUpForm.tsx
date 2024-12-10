@@ -47,9 +47,9 @@ export default function SignUpForm() {
     return (
         <Card className="mx-auto max-w-md w-full bg-black border text-white">
             <CardHeader>
-                <CardTitle className="text-2x">Sign Up</CardTitle>
+                <CardTitle className="text-2x">회원가입하기</CardTitle>
                 <CardDescription className="text-white">
-                    Enter your email below to login to your account
+                    새 계정에 가입하려면 아래에 귀하의 정보를 입력하세요.
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -105,13 +105,13 @@ export default function SignUpForm() {
                                 variant={"secondary"}
                                 className="w-full hover:bg-white bg-white text-black"
                             >
-                                Login
+                                회원가입하기
                             </Button>
                         </div>
                         <div className="mt-4 text-center text-sm">
-                            Don&apos;t have an account?{" "}
+                            이미 계정이 있으신가요?
                             <Link href="/login" className="underline">
-                                Login
+                                로그인
                             </Link>
                         </div>
                     </form>

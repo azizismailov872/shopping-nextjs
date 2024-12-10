@@ -51,9 +51,9 @@ export default function LoginForm() {
     return (
         <Card className="mx-auto max-w-md w-full bg-black border text-white">
             <CardHeader>
-                <CardTitle className="text-2x">Login</CardTitle>
+                <CardTitle className="text-2x">로그인</CardTitle>
                 <CardDescription className="text-white">
-                    Enter your email below to login to your account
+                    귀하의 계정에 로그인하려면 아래에 이메일을 입력하세요.
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -98,9 +98,9 @@ export default function LoginForm() {
                             </Button>
                         </div>
                         <div className="mt-4 text-center text-sm">
-                            Don&apos;t have an account?{" "}
+                            계정이 없습니까?
                             <Link href="/sign-up" className="underline">
-                                Sign Up
+                                회원가입하기
                             </Link>
                         </div>
                     </form>

@@ -29,9 +29,9 @@ export default async function Page({
         <div>
             <div className="flex justify-between items-center mb-6 pr-2">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight mb-2">Products</h2>
+                    <h2 className="text-2xl font-bold tracking-tight mb-2">제품</h2>
                     <p className="text-muted-foreground">
-                        Here&apos;s a list of your tasks for this month!
+                        모든 제품 목록은 다음과 같습니다.
                     </p>
                 </div>
                 <Link className="px-4 h-9 max-h-9 flex justify-center items-center border border-black font-bold" href={'/dashboard/products/create'}>추가하다</Link>
