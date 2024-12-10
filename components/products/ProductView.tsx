@@ -8,6 +8,8 @@ import { addToCart } from "@/actions/products";
 import { User } from "@supabase/supabase-js";
 import { Button } from "../ui/button";
 import toast from "react-hot-toast";
+import { ShoppingBag} from "lucide-react";
+import { redirect } from "next/navigation";
 
 interface LocalProduct extends Omit<Product, "images"> {
     images: {
@@ -38,7 +40,7 @@ const ProductView = ({ product, productId, publicUrl, user}: Props) => {
 
     const handleAddToCart = async () => {
         if (!selectedSize || !selectedColor) {
-          alert("Пожалуйста, выберите размер и цвет.");
+          alert("사이즈와 색상을 선택해주세요.");
           return;
         }
     
@@ -177,13 +179,10 @@ const ProductView = ({ product, productId, publicUrl, user}: Props) => {
                             </div>
                         </div>
                         <div className="px-4">
-                            {
-                                user && user !== null && (
-                                    <Button onClick={handleAddToCart}>
-                                        Add to cart
-                                    </Button>
-                                )
-                            }
+                            <Button variant={'outline'} className="border-black rounded-none hover:bg-black hover:text-white" onClick={user && user !== null ? handleAddToCart : () =>redirect('/login')}>
+                                <ShoppingBag size={24} />
+                                추가하기
+                            </Button>
                         </div>
                     </div>
                 </div>
