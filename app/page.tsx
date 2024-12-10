@@ -1,7 +1,9 @@
 import { fetchProducts, getCartItems } from "@/actions/products";
 import Header from "@/components/header/Header";
 import ProductsList from "@/components/products/ProductsList";
+import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
+import Link from "next/link";
 
 interface Props {
     searchParams: { 
@@ -18,7 +20,7 @@ export default async function Home({searchParams}: Props) {
     const params = await searchParams;
 
     const currentPage = parseInt(params.page || "1");
-    const currentPageSize = parseInt(params.pageSize || "10");
+    const currentPageSize = parseInt(params.pageSize || "12");
 
     const { products, totalCount } = await fetchProducts(
         currentPage,
@@ -44,6 +46,39 @@ export default async function Home({searchParams}: Props) {
             <Header user={user} cartList={cartList} />
             <main className="mx-auto max-w-screen-xl px-8 pt-4">
                 <ProductsList products={products} />
+                {totalCount && totalCount > currentPageSize ? (
+                <div className="mt-4 flex justify-between items-center">
+                    <Link
+                        href={{
+                            pathname: "/",
+                            query: {
+                                page: currentPage - 1,
+                                pageSize: currentPageSize,
+                            },
+                        }}
+                    >
+                        <Button disabled={currentPage === 1}>Previous</Button>
+                    </Link>
+
+                    <span>
+                        Page {currentPage} of {totalPages}
+                    </span>
+
+                    <Link
+                        href={{
+                            pathname: "/",
+                            query: {
+                                page: currentPage + 1,
+                                pageSize: currentPageSize,
+                            },
+                        }}
+                    >
+                        <Button disabled={currentPage === totalPages}>
+                            Next
+                        </Button>
+                    </Link>
+                </div>
+            ) : null}
             </main>
         </>
     );

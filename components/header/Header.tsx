@@ -24,7 +24,11 @@ const Header = async ({user,cartList}: Props) => {
 
                     <div className="md:flex md:items-center md:gap-12">
                         <AuthButtons user={user} />
-                        <CartNav cart={cartList} />
+                        {
+                            user && (
+                                <CartNav cart={cartList} />
+                            )
+                        }
                     </div>
                 </div>
             </div>
