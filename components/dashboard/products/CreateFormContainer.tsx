@@ -9,6 +9,7 @@ import { useState } from "react"
 import { z } from "zod"
 import { saveProduct, uploadImages } from "@/actions/products"
 import { redirect } from "next/navigation"
+import Loader from "@/components/ui/loader"
 
 type Props = {
     categories: Category[]
@@ -17,6 +18,8 @@ type Props = {
 type ProductForm = z.infer<typeof createSchema>
 
 export const CreateFormContainer = ({categories,...props}: Props) => {
+
+    const [isLoading,setLoading] = useState<boolean>(false)
 
     const [fileList,setFileList] = useState<File[] | null>(null)
 
@@ -35,6 +38,7 @@ export const CreateFormContainer = ({categories,...props}: Props) => {
 
     const handleProductSave = async(formData: ProductForm) => {
         try {
+            setLoading(true)
             // Сначала создаем продукт в базе данных, чтобы получить его ID
             const productId = await saveProduct(formData);
 
@@ -46,23 +50,26 @@ export const CreateFormContainer = ({categories,...props}: Props) => {
                     productId
                 ); // Передаем productId
             }
-
-            redirect('/dashboard')
+            setLoading(false)
+            redirect('/dashboard/products')
         } catch (error) {
             console.error("Error saving product:", error);
-            redirect('/dashboard')
+            redirect('/dashboard/products')
         }
     }
 
     return(
-        <CreateForm 
-            register={register}
-            onSubmit={handleSubmit(handleProductSave)}
-            categories={categories ? categories : []}
-            errors={errors}
-            control={control}
-            onFileChange={onFileChange}
-            fileList={fileList}
-        />
+        <>
+            <CreateForm 
+                register={register}
+                onSubmit={handleSubmit(handleProductSave)}
+                categories={categories ? categories : []}
+                errors={errors}
+                control={control}
+                onFileChange={onFileChange}
+                fileList={fileList}
+            />
+            <Loader isLoading={isLoading} />
+        </>
     )
 }

@@ -9,18 +9,21 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Product } from "@/types";
+import { Product, ProductImage } from "@/types";
 import Link from "next/link";
 import { deleteProduct } from "@/actions/products";
+import { redirect } from "next/navigation";
 
-const deleteProductAction = async(productId: number | string) => {
-    const result = await deleteProduct(productId); // Где 123 - это id продукта, который нужно удалить
+
+
+const deleteProductAction = async(productId: number | string,productImages: ProductImage[] | File[] | string[] |  null = null )     => {
+    const result = await deleteProduct(productId,productImages); // Где 123 - это id продукта, который нужно удалить
 
     if (result.success) {
-        console.log(result.message); // Успешно удалено
+        
+        redirect('/dashboard/products')
     } else {
         console.error(result.message); // Ошибка при удалении
     }
@@ -29,19 +32,23 @@ const deleteProductAction = async(productId: number | string) => {
 export const columns: ColumnDef<Product>[] = [
     {
         accessorKey: "name",
-        header: "name",
+        header: "Name",
     },
     {
         accessorKey: "price",
-        header: "price",
+        header: "Price",
     },
     {
         accessorKey: "brand",
-        header: "brand",
+        header: "Brand",
     },
     {
         accessorKey: "colors",
         header: "Colors",
+    },
+    {
+        accessorKey: "sizes",
+        header: "Sizes",
     },
     {
         id: "actions",
@@ -64,13 +71,13 @@ export const columns: ColumnDef<Product>[] = [
                                 <span>Edit</span>
                             </Link>
                         </DropdownMenuItem>
-                        {/* <DropdownMenuItem>
+                        <DropdownMenuItem>
                             <Link className="flex gap-3" href={`/dashboard/products/view/${product.id}`}>
                                 <Eye />
                                 <span>View</span>
                             </Link>
-                        </DropdownMenuItem> */}
-                        <DropdownMenuItem onClick={() => deleteProductAction(product.id)}>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="cursor-pointer" onClick={() => deleteProductAction(product?.id ? product.id : '',product.images)}>
                             <Trash />
                             Delete
                         </DropdownMenuItem>

@@ -1,11 +1,8 @@
 "use client";
 
 import {
-    Folder,
     MoreHorizontal,
     Pen,
-    Share,
-    Trash2,
     type LucideIcon,
 } from "lucide-react";
 
@@ -13,7 +10,6 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -45,10 +41,10 @@ export function NavMain({
                 {menuList.map((item) => (
                     <SidebarMenuItem key={item.name}>
                         <SidebarMenuButton asChild>
-                            <a href={item.url}>
+                            <Link href={item.url}>
                                 <item.icon />
                                 <span>{item.name}</span>
-                            </a>
+                            </Link>
                         </SidebarMenuButton>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -68,15 +64,6 @@ export function NavMain({
                                         <span>Create</span>
                                     </Link>
                                 </DropdownMenuItem>
-                                {/* <DropdownMenuItem>
-                                    <Share className="text-muted-foreground" />
-                                    <span>Share Project</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem>
-                                    <Trash2 className="text-muted-foreground" />
-                                    <span>Delete Project</span>
-                                </DropdownMenuItem> */}
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </SidebarMenuItem>

@@ -11,11 +11,8 @@ export default async function Page({params}: {params: Promise<{ id: string | num
 
     const {data,error} = await getCategoriesList()
 
-    console.log('initial product: ',product)
-
-
     return(
-        <div className="p-8">
+        <div className="mb-8">
             <h2 className="text-2xl font-bold mb-4">Edit product {`${product.name}`}</h2>
             <EditFormContainer categories={data} product={product} productId={productId} />
         </div>

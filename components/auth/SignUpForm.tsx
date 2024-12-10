@@ -47,7 +47,7 @@ export default function SignUpForm() {
     return (
         <Card className="mx-auto max-w-md w-full bg-black border text-white">
             <CardHeader>
-                <CardTitle className="text-2x">Login</CardTitle>
+                <CardTitle className="text-2x">Sign Up</CardTitle>
                 <CardDescription className="text-white">
                     Enter your email below to login to your account
                 </CardDescription>

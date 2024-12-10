@@ -16,3 +16,6 @@ export interface Category {
     created_at?: string
 }
 
+export type ProductImage = {
+    name: string
+}

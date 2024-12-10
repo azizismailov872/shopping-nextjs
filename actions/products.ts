@@ -1,15 +1,16 @@
 "use server"
 
+import { z } from "zod";
 import { createClient } from "@/utils/supabase/server";
 import { createSchema, updateSchema } from "@/utils/validation/products";
-import { z } from "zod";
+import { ProductImage } from "@/types";
 
 
 type CreateProductData = z.infer<typeof createSchema>
 
 type UpdateProductData = z.infer<typeof updateSchema>
 
-export const uploadImages = async (files: File[], productId: string): Promise<string[]> => {
+export const uploadImages = async (files: File[], productId: string | number): Promise<string[]> => {
 	const supabase = await createClient()
 
 	const uploadedFiles: string[] = [];
@@ -64,8 +65,8 @@ export const saveProduct = async (formData: CreateProductData): Promise<string> 
 				images: imageNames, // Сохраняем имена файлов как есть
 			},
 		])
-		.select() // Добавляем .select(), чтобы получить данные, включая ID
-		.single(); // .single() чтобы получить единственный объект
+		.select()
+		.single();
 
 	if (error) {
 		throw new Error(`Failed to save product: ${error.message}`);
@@ -97,32 +98,42 @@ export const fetchProducts = async (page: number = 1, pageSize: number = 2) => {
 	}
 };
 
-export const deleteProduct = async (productId: number | string) => {
+export const deleteProductImages = async(productId: number | string, productImages: ProductImage[] | File[] | string[] | null = nul) => {
+	const supabase = await createClient()
+
+	if(productImages && Array.isArray(productImages) && productImages.length > 0) {
+
+		const filePaths = typeof productImages[0] === 'string' ? productImages.map(item => `products/${productId}/${item}`)
+		: productImages.map(item => `products/${productId}/${item.name}`);
+
+		const { data, error } = await supabase
+		.storage
+		.from('images')
+		.remove(filePaths)
+
+		return data
+	}
+}
+
+export const deleteProduct = async (productId: number | string, productImages: ProductImage[] | File[] | string[] | null = null ) => {
 	const supabase = await createClient();
 
 	try {
-		// Выполняем удаление по id
-		const { data, error: deleteError } = await supabase.storage
-			.from('images')
-			.remove([`products/${productId}`]); // Указываем путь к папке
-
-		if (deleteError) {
-			throw new Error(`Error deleting images: ${deleteError.message}`);
+		
+		if(productImages) {
+			deleteProductImages(productId,productImages)
 		}
 
-
+		// Выполняем удаление по id
 		const { error } = await supabase
 			.from('products')
 			.delete()
 			.eq('id', productId)
 
-
-		console.log('error 12321', error)
 		// Если ошибка, выбрасываем исключение
 		if (error) {
 			throw new Error(`Error deleting product: ${error.message}`);
 		}
-
 		// Возвращаем успех, если ошибок нет
 		return { success: true, message: 'Product deleted successfully' };
 	} catch (error) {
@@ -135,25 +146,29 @@ export const deleteProduct = async (productId: number | string) => {
 export const getProductById = async (productId: string | number) => {
 	const supabase = await createClient()
 
+	
 	const { data, error } = await supabase
-		.from("products")
-		.select("*")
-		.eq("id", productId)
-		.single(); // Ожидаем одну запись
+		.from('products')
+		.select(`
+			*,
+			categories(id,name)  // Получаем поле name из таблицы categories
+		`)
+		.eq('id', productId)
+		.single()
 
 	if (error) {
 		throw new Error(`Failed to fetch product: ${error.message}`);
 	}
 
 	const product = {
-		name: data.name,
+		name: data?.name || '',
 		description: data.description,
 		price: data.price,
 		brand: data.brand,
 		sizes: data.sizes.join(", "), // Преобразуем массив в строку
-		category: data.category,
+		category: data.categories,
 		colors: data.colors.join(", "), // Преобразуем массив в строку
-		images: data.images.map((imagePath: string) => ({ name: imagePath.split("/").pop() })) // Если необходимо только имя
+		images: data.images.map((imagePath: string) => ({ name: imagePath.split("/").pop() })), 
 	};
 
 	return product
@@ -161,7 +176,7 @@ export const getProductById = async (productId: string | number) => {
 
 export const updateProductData = async (formData: UpdateProductData, productId: string | number): Promise<any> => {
 	const { name, description, price, brand, sizes, category, colors, images } = formData;
-	console.log('product_id: ', productId)
+
 	const supabase = await createClient()
 
 	const sizesArray = parseStringToArray(sizes);

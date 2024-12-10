@@ -51,7 +51,7 @@ export default function LoginForm() {
     return (
         <Card className="mx-auto max-w-md w-full bg-black border text-white">
             <CardHeader>
-                <CardTitle className="text-2x">Sign Up</CardTitle>
+                <CardTitle className="text-2x">Login</CardTitle>
                 <CardDescription className="text-white">
                     Enter your email below to login to your account
                 </CardDescription>
@@ -99,8 +99,8 @@ export default function LoginForm() {
                         </div>
                         <div className="mt-4 text-center text-sm">
                             Don&apos;t have an account?{" "}
-                            <Link href="/login" className="underline">
-                                Login
+                            <Link href="/sign-up" className="underline">
+                                Sign Up
                             </Link>
                         </div>
                     </form>
