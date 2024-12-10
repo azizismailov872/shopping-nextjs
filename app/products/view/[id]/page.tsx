@@ -1,10 +1,7 @@
 import { getProductById } from "@/actions/products";
-import ProductCarousel from "@/components/products/ProductCarusel";
 import ProductView from "@/components/products/ProductView";
-import { Separator } from "@/components/ui/separator";
 import { createClient } from "@/utils/supabase/server";
-import { Edit } from "lucide-react";
-import Link from "next/link";
+
 
 export default async function Page({
     params,
