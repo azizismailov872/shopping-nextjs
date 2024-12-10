@@ -9,8 +9,6 @@ export default async function Home({searchParams}: {searchParams: { page: string
 
     const { data: { user } } = await supabase.auth.getUser()
 
-    console.log('user: ',user)
-
     const params = await searchParams;
 
     const currentPage = parseInt(params.page || "1");
