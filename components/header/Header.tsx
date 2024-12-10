@@ -1,15 +1,16 @@
+import Link from "next/link";
 import React from "react";
 
 const Header = () => {
     return (
-        <header className="bg-white shadow-md">
+        <header className="bg-white shadow-md mb-6">
             <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                     <div className="flex-1 md:flex md:items-center md:gap-12">
-                        <a className="block text-black font-bold" href="#">
+                        <Link className="block text-black font-bold" href="/">
                             <span className="sr-only">Home</span>
                             <span>MussarovShop</span>
-                        </a>
+                        </Link>
                     </div>
 
                     <div className="md:flex md:items-center md:gap-12">

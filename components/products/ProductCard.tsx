@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 type Product = {
     id: number;
     name: string;
@@ -22,7 +24,7 @@ const ProductCard = ({product}: Props) => {
     const publicUrl = process.env.IMAGES_PUBLIC_URL
 
     return (
-        <a href="#" className="group block overflow-hidden">
+        <Link href={`/products/view/${product.id}`} className="group block overflow-hidden">
             <div className="relative h-[350px] sm:h-[450px]">
                 <img
                     src={product.images.length > 0  ? `${publicUrl}/products/${product.id}/${product.images[0]}` : placeholder}
@@ -50,7 +52,7 @@ const ProductCard = ({product}: Props) => {
                     <p className="text-xs uppercase tracking-wide">{product.colors.length} 그림 물감</p>
                 </div>
             </div>
-        </a>
+        </Link>
     );
 };
 
