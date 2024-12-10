@@ -24,7 +24,7 @@ interface Props {
     user: User | null
 }
 
-const ProductView = ({ product, productId, publicUrl, user}: Props) => {
+const ProductView = ({ product, productId,publicUrl, user}: Props) => {
     const placeholder = "https://placehold.co/600x400";
 
     const sizes = product.sizes.split(",");
@@ -55,6 +55,7 @@ const ProductView = ({ product, productId, publicUrl, user}: Props) => {
     
         if (response.success) {
             toast.success('제품이 성공적으로 추가되었습니다.')
+            redirect(`/products/view/${productId}`)
         } else {
           alert(`Ошибка при добавлении товара в корзину ${response.error}`);
         }

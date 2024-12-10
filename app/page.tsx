@@ -1,13 +1,19 @@
-import { fetchProducts } from "@/actions/products";
+import { fetchProducts, getCartItems } from "@/actions/products";
 import Header from "@/components/header/Header";
 import ProductsList from "@/components/products/ProductsList";
 import { createClient } from "@/utils/supabase/server";
 
-export default async function Home({searchParams}: {searchParams: { page: string; pageSize: string }}) {
-    
-    const supabase = await createClient()
+interface Props {
+    searchParams: { 
+        page: string; 
+        pageSize: string 
+    }
+}
 
-    const { data: { user } } = await supabase.auth.getUser()
+export default async function Home({searchParams}: Props) {
+    const supabase = await createClient();
+
+    const {data: { user }} = await supabase.auth.getUser();
 
     const params = await searchParams;
 
@@ -19,17 +25,26 @@ export default async function Home({searchParams}: {searchParams: { page: string
         currentPageSize
     );
 
-    const totalPages =
-        totalCount && totalCount !== null
-            ? Math.ceil(totalCount / currentPageSize)
-            : 0;
+    const totalPages = totalCount && totalCount !== null ? Math.ceil(totalCount / currentPageSize) : 0;
 
-    return(
+    let cartList: any = []
+
+    let totalPrice: any  = 0
+
+    if(user) {
+        const {cartWithProductInfo, total} =  await getCartItems(user.id)
+
+        cartList = cartWithProductInfo
+
+        totalPrice = total
+    }
+
+    return (
         <>
-            <Header />
+            <Header user={user} cartList={cartList} />
             <main className="mx-auto max-w-screen-xl px-8 pt-4">
                 <ProductsList products={products} />
             </main>
         </>
-    )
+    );
 }

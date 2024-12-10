@@ -1,16 +1,14 @@
 "use client";
 
-import { ChevronsUpDown, LogOut, ShoppingBag } from "lucide-react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { ShoppingBag } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { Badge } from "../ui/badge";
 
 interface Props {
     cart: any[];
@@ -24,8 +22,13 @@ const CartNav = ({ cart }: Props) => {
             <DropdownMenuTrigger asChild>
                 <div className="flex items-center gap-3 px-1 py-1.5 text-left text-sm">
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-semibold">
-                            <ShoppingBag />
+                        <span className="relative inline-block">
+                            <ShoppingBag size={28} />
+                            <Badge className="absolute -bottom-2 -right-2 w-3 h-5 bg-red-500 text-white text-xs flex items-center justify-center rounded-full">
+                                {
+                                    cart && cart.length ? cart.length : 0
+                                }
+                            </Badge>
                         </span>
                     </div>
                 </div>
@@ -46,7 +49,13 @@ const CartNav = ({ cart }: Props) => {
                             <ul className="space-y-4">
                                 {cart && cart.length > 0 ? (
                                     cart.slice(0, 3).map((product) => (
-                                        <li key={product.product_id + Math.random()} className="flex items-center gap-4">
+                                        <li
+                                            key={
+                                                product.product_id +
+                                                Math.random()
+                                            }
+                                            className="flex items-center gap-4"
+                                        >
                                             <img
                                                 src={`${publicUrl}/${product.product_id}/${product.productImages[0]}`}
                                                 alt=""
@@ -55,9 +64,10 @@ const CartNav = ({ cart }: Props) => {
 
                                             <div>
                                                 <h3 className="text-sm text-gray-900">
-                                                    {
-                                                        product.productName.slice(0,10) + '...'
-                                                    }
+                                                    {product.productName.slice(
+                                                        0,
+                                                        10
+                                                    ) + "..."}
                                                 </h3>
 
                                                 <dl className="mt-0.5 space-y-px text-[10px] text-gray-600">

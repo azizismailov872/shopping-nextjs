@@ -47,7 +47,7 @@ const ProductCard = ({product}: Props) => {
                 </h3>
 
                 <div className="mt-1.5 flex items-center justify-between text-gray-900">
-                    <p className="tracking-wide">{product.price} KRW</p>
+                    <p className="tracking-wide">₩ {product.price}</p>
 
                     <p className="text-xs uppercase tracking-wide">{product.colors.length} 그림 물감</p>
                 </div>

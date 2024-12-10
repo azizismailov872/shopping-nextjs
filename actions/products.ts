@@ -280,3 +280,70 @@ export async function addToCart(data: Cart) {
 		return { success: false, error: error.message };
 	}
 }
+
+export const getCartItems = async(userId: string | number) => {
+	const supabase = await createClient();
+
+	const { data: cartItems, error: cartError } = await supabase
+    	.from("cart")
+    	.select("*")
+    	.eq("user_id", userId);
+
+	if (cartError) {
+		console.error("Ошибка при получении товаров из корзины:", cartError.message);
+		return { success: false, error: cartError.message };
+	}
+
+	const productIds = cartItems.map((item: any) => item.product_id)
+
+	const { data: products, error: productsError } = await supabase
+    	.from("products")
+    	.select("id, name, price, images")
+    	.in("id", productIds);
+
+	if (productsError) {
+		console.error("Ошибка при получении данных о товарах:", productsError.message);
+		return { success: false, error: productsError.message };
+	}
+
+	const cartWithProductInfo = cartItems.map((item: any) => {
+		const product = products.find((p: any) => p.id === item.product_id);
+		return {
+		  ...item,
+		  productName: product?.name,
+		  productPrice: product?.price,
+		  productImages: product?.images,
+		};
+	});
+
+	const total = cartWithProductInfo.reduce((acc: number, item: any) => acc + item.productPrice * item.count, 0);
+
+	return {
+		success: true,
+		cartWithProductInfo,
+		total,
+	};
+}
+
+
+export const deleteCartItem = async (cartItemId: string | number) => {
+	const supabase = await createClient();
+  
+	try {
+	  // Удаляем запись из таблицы cart по ID
+	  const { data, error } = await supabase
+		.from("cart")
+		.delete()
+		.eq("id", cartItemId);
+  
+	  if (error) {
+		throw new Error(`Error deleting cart item: ${error.message}`);
+	  }
+  
+	  console.log("Cart item deleted successfully", data);
+	  return { success: true, data };
+	} catch (error) {
+	  console.error("Error in deleteCartItem:", error.message);
+	  return { success: false, error: error.message };
+	}
+};
