@@ -347,3 +347,25 @@ export const deleteCartItem = async (cartItemId: string | number) => {
 	  return { success: false, error: error.message };
 	}
 };
+
+export const deleteAllCartItems = async (userId: string | number) => {
+	const supabase = await createClient(); // Создаем клиент Supabase
+  
+	try {
+	  // Выполняем удаление всех записей по user_id
+	  const { data, error } = await supabase
+		.from("cart")
+		.delete()
+		.eq("user_id", userId); // Фильтруем по user_id
+  
+	  if (error) {
+		throw new Error(`Error deleting cart items: ${error.message}`);
+	  }
+  
+	  console.log("All cart items deleted successfully", data); // Логируем успешное удаление
+	  return { success: true, data };
+	} catch (error) {
+	  console.error("Error in deleteAllCartItems:", error.message); // Логируем ошибку
+	  return { success: false, error: error.message };
+	}
+  };
